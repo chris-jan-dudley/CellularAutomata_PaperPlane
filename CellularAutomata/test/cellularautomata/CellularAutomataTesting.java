@@ -32,9 +32,9 @@ public class CellularAutomataTesting {
     @Before
     public void setUp() {
         test_simulation = new Simulation();
-        test_rules = new RuleTable();
-        ArrayList<Integer> test_initial = new ArrayList<>(Arrays.asList(1,0,1,0,1));
-        test_automata = new Automata(test_initial);
+        test_rules = new RuleTable(1);
+        ArrayList<Integer> test_initial = new ArrayList<>(Arrays.asList(1, 0, 1, 0, 1));
+        test_automata = new Automata(test_initial, 1, test_rules);
     }
 
     @After
@@ -51,9 +51,25 @@ public class CellularAutomataTesting {
         test_cell.set_value(1);
         Assert.assertTrue(test_cell.get_value() == 1);
     }
-    
+
     @Test
     public void test_automata_functions() {
-        test_automata.to_string();
+        Assert.assertEquals("10101", test_automata.to_string());
+        String test_local = String.join("", test_automata.get_local(2));
+        Assert.assertEquals("010", test_local);
+        String test_r_local = String.join("", test_automata.get_r_local(2));
+        Assert.assertEquals("0", test_r_local);
+        String test_l_local = String.join("", test_automata.get_l_local(2));
+        Assert.assertEquals("0", test_l_local);
+    }
+    
+    @Test
+    public void test_rules_functions() {
+        int val = test_rules.lookup_rule("101");
+    }
+    
+    @Test
+    public void test_simulation_functions() {
+        
     }
 }
