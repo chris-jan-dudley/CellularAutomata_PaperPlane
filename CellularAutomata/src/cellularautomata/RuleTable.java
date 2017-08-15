@@ -5,6 +5,7 @@
  */
 package cellularautomata;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +14,18 @@ import java.util.Map;
  * @author Chris
  */
 class RuleTable {
-    
-    private HashMap<Integer,Integer> rules;
-    
+
+    private HashMap<String, Integer> rules;
+    private int neighbours;
+
+    public RuleTable(int nb) {
+        neighbours = nb;
+        
+        
+    }
+
+    public int lookup_rule(String key) {
+        return rules.get(key);
+    }
+
 }
