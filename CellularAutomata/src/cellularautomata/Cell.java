@@ -10,18 +10,30 @@ package cellularautomata;
  * @author Chris
  */
 class Cell {
- 
-    private boolean on_off;
 
-    Cell(boolean b) {
-        on_off = b;
+    private Integer on_off;
+
+    Cell(int num) {
+        on_off = num;
     }
 
-    boolean get_value() {
+    public int get_value() {
         return on_off;
     }
 
-    void switch_value() {
-        on_off = !on_off;
+    public void set_value(int num) {
+        on_off = num;
+    }
+
+    public void switch_value() {
+        if (on_off == 1) {
+            on_off = 0;
+        } else {
+            on_off = 1;
+        }
+    }
+
+    public String to_string() {
+        return on_off.toString();
     }
 }
