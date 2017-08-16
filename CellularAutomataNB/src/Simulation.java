@@ -175,24 +175,6 @@ public class Simulation {
     }
 
     /**
-     * Returns the number of ticks to be run
-     *
-     * @return num_ticks, the number of ticks
-     */
-    public int get_num_ticks() {
-        return num_ticks;
-    }
-
-    /**
-     * Returns the current tick the system is on. (Used for testing)
-     *
-     * @return current_tick
-     */
-    public int get_current_tick() {
-        return current_tick;
-    }
-
-    /**
      * Runs a tick of the simulation. This increments the current tick, and
      * calls on the do_update() method of the Automata.
      */

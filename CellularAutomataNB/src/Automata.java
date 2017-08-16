@@ -114,7 +114,7 @@ class Automata {
             if (index - i < 0) {
                 l_local.add(container.get(index - i + a_size).to_string());
             } else {
-                l_local.add(container.get(index - 1).to_string());
+                l_local.add(container.get(index - i).to_string());
             }
         }
 
@@ -148,7 +148,8 @@ class Automata {
      * A temporary ArrayList is used to store new Cell values, which are
      * obtained by looking up each local "neighbourhood" and looking this up as
      * a key in the RuleTable. The associated value is used in the constructor
-     * of the new Cell. The container is then replaced by the new set of values in new_automata.
+     * of the new Cell. The container is then replaced by the new set of values
+     * in new_automata.
      */
     public void do_update() {
 

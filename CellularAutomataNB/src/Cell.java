@@ -9,7 +9,7 @@ public class Cell {
     /**
      * This holds the value of the cell, on or off, represented by an integer.
      */
-    private int on_off;
+    private final int on_off;
 
     /**
      * Constructor sets the passed variable, num, as the initial starting value

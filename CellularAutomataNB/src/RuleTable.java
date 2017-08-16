@@ -1,6 +1,5 @@
 
 import java.util.LinkedHashMap;
-import java.util.Set;
 
 /**
  * This class holds the rule table used to update the automaton.
