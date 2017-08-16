@@ -42,14 +42,6 @@ public class CellularAutomataTesting {
     public void test_cell_functions() {
         Cell test_cell = new Cell(1);
         Assert.assertEquals("1", test_cell.to_string());
-
-        test_cell.switch_value();
-        Assert.assertFalse(test_cell.get_value() == 1);
-
-        Assert.assertEquals("0", test_cell.to_string());
-
-        test_cell.set_value(1);
-        Assert.assertTrue(test_cell.get_value() == 1);
     }
 
     @Test
@@ -66,11 +58,11 @@ public class CellularAutomataTesting {
         Assert.assertEquals("0", test_l_local);
 
         System.out.println(test_automata.get_print());
-        
+
         test_automata.do_update();
-        
+
         System.out.println(test_automata.get_print());
-        
+
         Assert.assertEquals(1, test_automata.get_container().get(0).get_value());
         Assert.assertEquals(0, test_automata.get_container().get(1).get_value());
         Assert.assertEquals(1, test_automata.get_container().get(2).get_value());
@@ -96,11 +88,11 @@ public class CellularAutomataTesting {
         Assert.assertEquals(expected.get(5), test_keys.toArray()[5]);
         Assert.assertEquals(expected.get(6), test_keys.toArray()[6]);
         Assert.assertEquals(expected.get(7), test_keys.toArray()[7]);
-        
+
         for (Object rule : test_rules.get_rules().keySet()) {
             System.out.println("| " + rule.toString() + " | " + test_rules.get_rules().get(rule).toString() + " |");
         }
-        
+
         System.out.println(test_rules.to_print());
 
     }

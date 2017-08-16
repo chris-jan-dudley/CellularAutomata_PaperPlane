@@ -1,1 +1,3 @@
 *.class
+/CellularAutomataNB/nbproject/private/
+/CellularAutomataNB/build/
