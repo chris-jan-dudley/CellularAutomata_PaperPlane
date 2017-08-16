@@ -8,13 +8,13 @@ public class Cell {
     /**
      *
      */
-    private Integer on_off;
+    private int on_off;
 
     /**
      *
      * @param num
      */
-    Cell(int num) {
+    public Cell(int num) {
         on_off = num;
     }
 
@@ -50,6 +50,6 @@ public class Cell {
      * @return
      */
     public String to_string() {
-        return on_off.toString();
+        return String.valueOf(on_off);
     }
 }

@@ -86,7 +86,7 @@ public class CellularAutomataTesting {
         int val = test_rules.lookup_rule("101");
         Assert.assertTrue(0 == val);
 
-        Set test_keys = test_rules.get_keys();
+        Set test_keys = test_rules.get_rules().keySet();
         ArrayList expected = new ArrayList<>(Arrays.asList("000", "001", "010", "011", "100", "101", "110", "111"));
         Assert.assertEquals(expected.get(0), test_keys.toArray()[0]);
         Assert.assertEquals(expected.get(1), test_keys.toArray()[1]);
@@ -97,7 +97,7 @@ public class CellularAutomataTesting {
         Assert.assertEquals(expected.get(6), test_keys.toArray()[6]);
         Assert.assertEquals(expected.get(7), test_keys.toArray()[7]);
         
-        for (Object rule : test_rules.get_keys()) {
+        for (Object rule : test_rules.get_rules().keySet()) {
             System.out.println("| " + rule.toString() + " | " + test_rules.get_rules().get(rule).toString() + " |");
         }
         
