@@ -19,17 +19,21 @@ class Automata {
     int neighbours, a_size;
     RuleTable rules;
 
-    public Automata(ArrayList<Integer> initial_states, int nb, RuleTable rl) {
+    public Automata(String initial_states, int nb, RuleTable rl) {
+
         automata = new LinkedList<>();
         neighbours = nb;
-        for (int num : initial_states) {
-            automata.add(new Cell(num));
+
+        for (char num : initial_states.toCharArray()) {
+            automata.add(new Cell(Character.getNumericValue(num)));
         }
+
         a_size = automata.size();
         rules = rl;
     }
 
     public String to_string() {
+
         String output = "";
         for (Cell c : automata) {
             output = output.concat(c.to_string());
@@ -38,7 +42,19 @@ class Automata {
         return output;
     }
 
+    public String get_print() {
+
+        String output = "";
+        output = output.concat("\n| ");
+        for (Cell c : automata) {
+            output = output.concat(c.to_string());
+            output = output.concat(" | ");
+        }
+        return output;
+    }
+
     public ArrayList get_local(int index) {
+
         ArrayList neighbourhood = new ArrayList<>();
         neighbourhood.addAll(get_l_local(index));
         neighbourhood.add(automata.get(index).to_string());
@@ -47,6 +63,7 @@ class Automata {
     }
 
     public ArrayList get_l_local(int index) {
+
         ArrayList l_neighbours = new ArrayList<>();
         for (int i = neighbours; i > 0; i--) {
             if (index - i < 0) {
@@ -60,6 +77,7 @@ class Automata {
     }
 
     public ArrayList get_r_local(int index) {
+
         ArrayList r_neighbours = new ArrayList<>();
         for (int i = 1; i <= neighbours; i++) {
             if (index + i >= a_size) {
@@ -72,12 +90,14 @@ class Automata {
     }
 
     public void do_update() {
-        ArrayList new_automata = new ArrayList<>();
+
+        LinkedList new_automata = new LinkedList<>();
         for (Cell automata1 : automata) {
             ArrayList local = get_local(automata.indexOf(automata1));
             String local_key = String.join("", local);
             new_automata.add(new Cell(rules.lookup_rule(local_key)));
         }
+        automata = new_automata;
     }
 
 }

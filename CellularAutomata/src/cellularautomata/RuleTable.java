@@ -28,7 +28,7 @@ final class RuleTable {
     }
 
     public int lookup_rule(String key) {
-        return rules.get(key);
+        return (int) rules.get(key);
     }
 
     public void create_rules(int nb, String res) {
@@ -50,7 +50,7 @@ final class RuleTable {
         return rules.keySet();
     }
 
-    public HashMap get_rules() {
+    public LinkedHashMap get_rules() {
         return rules;
     }
 
