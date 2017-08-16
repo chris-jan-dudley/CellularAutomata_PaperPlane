@@ -1,4 +1,3 @@
-package cellularautomata;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -7,16 +6,11 @@ package cellularautomata;
  */
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -72,6 +66,16 @@ public class CellularAutomataTesting {
         Assert.assertEquals("0", test_l_local);
 
         System.out.println(test_automata.get_print());
+        
+        test_automata.do_update();
+        
+        System.out.println(test_automata.get_print());
+        
+        Assert.assertEquals(1, test_automata.get_container().get(0).get_value());
+        Assert.assertEquals(0, test_automata.get_container().get(1).get_value());
+        Assert.assertEquals(1, test_automata.get_container().get(2).get_value());
+        Assert.assertEquals(0, test_automata.get_container().get(3).get_value());
+        Assert.assertEquals(0, test_automata.get_container().get(4).get_value());
     }
 
     @Test
@@ -92,6 +96,12 @@ public class CellularAutomataTesting {
         Assert.assertEquals(expected.get(5), test_keys.toArray()[5]);
         Assert.assertEquals(expected.get(6), test_keys.toArray()[6]);
         Assert.assertEquals(expected.get(7), test_keys.toArray()[7]);
+        
+        for (Object rule : test_rules.get_keys()) {
+            System.out.println("| " + rule.toString() + " | " + test_rules.get_rules().get(rule).toString() + " |");
+        }
+        
+        System.out.println(test_rules.to_print());
 
     }
 
@@ -101,8 +111,5 @@ public class CellularAutomataTesting {
         test_simulation.set_num_ticks(num_ticks);
         Assert.assertEquals(num_ticks, test_simulation.get_num_ticks());
         Assert.assertEquals(0, test_simulation.get_current_tick());
-
-        test_simulation.run_tick();
-        Assert.assertEquals(1, test_simulation.get_current_tick());
     }
 }

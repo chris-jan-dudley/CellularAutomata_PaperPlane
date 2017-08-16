@@ -1,30 +1,42 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package cellularautomata;
 
 /**
  *
  * @author Chris
  */
-class Cell {
+public class Cell {
 
+    /**
+     *
+     */
     private Integer on_off;
 
+    /**
+     *
+     * @param num
+     */
     Cell(int num) {
         on_off = num;
     }
 
+    /**
+     *
+     * @return
+     */
     public int get_value() {
         return on_off;
     }
 
+    /**
+     *
+     * @param num
+     */
     public void set_value(int num) {
         on_off = num;
     }
 
+    /**
+     *
+     */
     public void switch_value() {
         if (on_off == 1) {
             on_off = 0;
@@ -33,6 +45,10 @@ class Cell {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public String to_string() {
         return on_off.toString();
     }
