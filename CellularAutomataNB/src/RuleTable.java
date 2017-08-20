@@ -15,7 +15,16 @@ public final class RuleTable {
      * rules.
      */
     private final LinkedHashMap<String, Integer> rules;
+
+    /**
+     *
+     */
     private final int neighbours;
+
+    /**
+     *
+     */
+    private final String outcomes;
 
     /**
      * Constructor for the RuleTable. A new LinkedHashMap is initialised, and
@@ -28,6 +37,19 @@ public final class RuleTable {
         neighbours = nb;
         rules = new LinkedHashMap<>();
         create_rules(nb, "none");
+        outcomes = "none";
+    }
+
+    /**
+     *
+     * @param nb
+     * @param rls
+     */
+    public RuleTable(int nb, String rls) {
+        neighbours = nb;
+        rules = new LinkedHashMap<>();
+        create_rules(nb, rls);
+        outcomes = rls;
     }
 
     /**
@@ -66,6 +88,14 @@ public final class RuleTable {
                 rules.put(local, Character.getNumericValue(res.charAt(i)));
             }
         }
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String get_outcomes() {
+        return outcomes;
     }
 
     /**

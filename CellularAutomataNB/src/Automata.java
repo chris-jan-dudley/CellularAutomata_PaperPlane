@@ -14,7 +14,16 @@ class Automata {
      * lookup rules of the automaton.
      */
     ArrayList<Cell> container;
-    int neighbours, a_size;
+    int neighbours,
+
+    /**
+     *
+     */
+    a_size;
+
+    /**
+     *
+     */
     RuleTable rules;
 
     /**
@@ -51,7 +60,6 @@ class Automata {
         for (Cell c : container) {
             output = output.concat(c.to_string());
         }
-        System.out.println(output);
         return output;
     }
 
@@ -70,7 +78,7 @@ class Automata {
      *
      * @return String representation of the automaton.
      */
-    public String get_print() {
+    public String to_print() {
 
         String output = "";
         output = output.concat("| ");

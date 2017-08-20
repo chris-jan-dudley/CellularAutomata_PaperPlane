@@ -33,40 +33,16 @@ Where *i* is the central cell, and L1 and R1 are the left and right neighbours r
 
 Let us consider the following rules table, with the relevant rule in bold:
 
-<table>
-  <tr>
-    <td> 000 </td>
-    <td> 1 </td>
-  </tr>
-  <tr>
-    <td> 001 </td>
-    <td> 0 </td>
-  </tr>
-  <tr>
-    <td> **010** </td>
-    <td> **0** </td>
-  </tr>
-  <tr>
-    <td> 011 </td>
-    <td> 1 </td>
-  </tr>
-  <tr>
-    <td> 100 </td>
-    <td> 0 </td>
-  </tr>
-  <tr>
-    <td> 101 </td>
-    <td> 0 </td>
-  </tr>
-  <tr>
-    <td> 110 </td>
-    <td> 1 </td>
-  </tr>
-  <tr>
-    <td> 001 </td>
-    <td> 0 </td>
-  </tr>
-</table>
+| L1 | i | R1 || rule |
+|:-: |:-:|:-:||:-:|
+| 0 | 0 | 0 || 1 |
+| 0 | 0 | 1 || 0 |
+| **0** | **1** | **0** || **0** |
+| 0 | 1 | 1 || 1 |
+| 1 | 0 | 0 || 0 |
+| 1 | 0 | 1 || 0 |
+| 1 | 1 | 0 || 1 |
+| 1 | 1 | 1 || 0 |
 
 This means that when the automaton is updated, the cell will take a value of 0; it is "turned off". This is done for each cell in the automaton.
 

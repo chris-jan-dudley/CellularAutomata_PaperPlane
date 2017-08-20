@@ -8,25 +8,38 @@ import java.util.Scanner;
  *
  * @author Chris
  */
-public class Simulation {
+public final class CASimulation {
 
     /**
-     * The Simulation contains instances of RuleTable, and Automata. There is a
-     * field for the total number of ticks desired, and the current tick is
+     * The CASimulation contains instances of RuleTable, and Automata. There is
+     * a field for the total number of ticks desired, and the current tick is
      * recorded.
      */
-    private static RuleTable rule_table;
-    private static Automata automata;
-    private static int num_ticks, current_tick;
+    private RuleTable rule_table;
+
+    /**
+     *
+     */
+    private Automata automata;
+    private int num_ticks,
+
+    /**
+     *
+     */
+    current_tick;
 
     /**
      * Main method contains the user input prompts and assignments, and calls
-     * the methods to set up the simulation, and run it.
+     * the methods to set up the simulation, and run_sim it.
      *
-     * @param args No command line arguments need to be given; user prompts and
-     * inputs deal with set up
      */
-    public static void main(String[] args) {
+    public CASimulation() {
+    }
+
+    /**
+     *
+     */
+    public void run_sim() {
 
         //Starting a Scanner to allow user input to be read
         Scanner read_in = new Scanner(System.in);
@@ -155,21 +168,21 @@ public class Simulation {
             System.out.println("\nStarting Cellular Automaton...\n");
             for (int i = 0; i <= num_ticks; i++) {
                 System.out.println("\n---- Tick " + current_tick + " ----");
-                System.out.println(automata.get_print());
+                System.out.println(automata.to_print());
                 run_tick();
             }
         }
         System.out.println("\nYour Cellular Automaton has terminated. Thank you for using this simulation!");
-
+        
     }
 
     /**
-     * Sets the number of ticks over which the simulation will run, and sets the
-     * current tick counter to 0.
+     * Sets the number of ticks over which the simulation will run_sim, and sets
+     * the current tick counter to 0.
      *
-     * @param nt Number of ticks to be run
+     * @param nt Number of ticks to be run_sim
      */
-    public static void set_num_ticks(int nt) {
+    public void set_num_ticks(int nt) {
         num_ticks = nt;
         current_tick = 0;
     }
@@ -178,7 +191,7 @@ public class Simulation {
      * Runs a tick of the simulation. This increments the current tick, and
      * calls on the do_update() method of the Automata.
      */
-    public static void run_tick() {
+    public void run_tick() {
         automata.do_update();
         current_tick++;
     }
