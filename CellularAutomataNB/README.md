@@ -35,16 +35,16 @@ Where *i* is the central cell, and L1 and R1 are the left and right neighbours r
 
 Let us consider the following rules table, with the relevant rule in bold:
 
-| L1 | i | R1 || rule |
-|:---: |:---:|:---:||:---:|
-| 0 | 0 | 0 || 1 |
-| 0 | 0 | 1 || 0 |
-| **0** | **1** | **0** || **0** |
-| 0 | 1 | 1 || 1 |
-| 1 | 0 | 0 || 0 |
-| 1 | 0 | 1 || 0 |
-| 1 | 1 | 0 || 1 |
-| 1 | 1 | 1 || 0 |
+| L1 | i | R1 | rule |
+|:---: |:---:|:---:|:---:|
+| 0 | 0 | 0 | 1 |
+| 0 | 0 | 1 | 0 |
+| **0** | **1** | **0** | **0** |
+| 0 | 1 | 1 | 1 |
+| 1 | 0 | 0 | 0 |
+| 1 | 0 | 1 | 0 |
+| 1 | 1 | 0 | 1 |
+| 1 | 1 | 1 | 0 |
 
 This means that when the automaton is updated, the cell will take a value of 0; it is "turned off". This is done for each cell in the automaton.
 
