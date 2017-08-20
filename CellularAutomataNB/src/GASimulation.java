@@ -24,10 +24,10 @@ public final class GASimulation {
      * generator used to create random genotypes and initial automata.
      */
     public static Map<RuleTable, Double> genotypes;
-    int trials,
+    public int trials,
             num_genotypes,
             generations;
-    Random rangen;
+    public Random rangen;
 
     /**
      * Constructor for the GASimulation class.
@@ -47,25 +47,38 @@ public final class GASimulation {
         genotypes = new ConcurrentHashMap<>();
 
         Scanner read_in = new Scanner(System.in);
-        System.out.println("Welcome to the Genetic Algorithm Simulation...");
+        System.out.println("\nWelcome to the Genetic Algorithm Simulation...");
 
+        /**
+         * The user is prompted to enter the number of genotypes they would like
+         * to try. Validation ensures numbers are entered.
+         */
         String choice = "null";
         while (!choice.matches("[0-9]+")) {
-            System.out.println("Please enter the number of genotypes you'd like to simulate: ");
+            System.out.println("\nPlease enter the number of genotypes you'd like to simulate: ");
             choice = read_in.next();
         }
         num_genotypes = Integer.valueOf(choice);
 
+        /**
+         * The user is prompted to enter the number of trials they would like to
+         * run for each generation. Validation ensures numbers are entered.
+         */
         choice = "null";
         while (!choice.matches("[0-9]+")) {
-            System.out.println("Please enter the number of trials per generation you'd like to simulate: ");
+            System.out.println("\nPlease enter the number of trials per generation you'd like to simulate: ");
             choice = read_in.next();
         }
         trials = Integer.valueOf(choice);
 
+        /**
+         * The user is prompted to enter the number of generations they would
+         * like to run the simulation for. Validation ensures numbers are
+         * entered.
+         */
         choice = "null";
         while (!choice.matches("[0-9]+")) {
-            System.out.println("Please enter the number of generations you'd like to simulate: ");
+            System.out.println("\nPlease enter the number of generations you'd like to simulate: ");
             choice = read_in.next();
         }
         generations = Integer.valueOf(choice);
@@ -73,8 +86,24 @@ public final class GASimulation {
             String genotype = random_bin_string(8);
             genotypes.put(new RuleTable(1, genotype), 0.0);
         }
-        
-        evolution();
+
+        /**
+         * The user is prompted to start the simulation. Validation checks are
+         * put in place to permit only valid inputs "y" or "n".
+         */
+        System.out.println("\nReady to run your Cellular Automata? (y/n)     ");
+        String chosen = read_in.next();
+        while (!chosen.equals("y") && !chosen.equals("n")) {
+            System.out.println("\nI'm sorry, I did not recognise that input. Please try again.");
+            System.out.println("\nReady to run your Cellular Automata? (y/n)     ");
+            chosen = read_in.next();
+        }
+        if (chosen.equals("y")) {
+            System.out.println("\nStarting Genetic Algorithm...\n");
+            evolution();
+        }
+        System.out.println("\nYour Genetic Algorithm has terminated. Thank you for using this simulation!");
+
     }
 
     /**
@@ -248,7 +277,7 @@ public final class GASimulation {
      *
      * @param sorted_genotypes The list of sorted genotypes based on mean error.
      */
-    private void replace_weakest(List<Entry<RuleTable, Double>> sorted_genotypes) {
+    public void replace_weakest(List<Entry<RuleTable, Double>> sorted_genotypes) {
         Entry<RuleTable, Double> first = sorted_genotypes.get(0);
         Entry<RuleTable, Double> second = sorted_genotypes.get(1);
         int min_index = (int) 0.5 * num_genotypes;
@@ -277,7 +306,7 @@ public final class GASimulation {
      * @param mother One of two best genotypes
      * @return a genotype which is generated using the parent genotypes.
      */
-    private String get_offspring(Entry<RuleTable, Double> father, Entry<RuleTable, Double> mother) {
+    public String get_offspring(Entry<RuleTable, Double> father, Entry<RuleTable, Double> mother) {
 
         Double chance_for_father = father.getValue() / (father.getValue() + mother.getValue());
         String child = "";

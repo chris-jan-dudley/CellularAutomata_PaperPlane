@@ -6,7 +6,7 @@ import java.util.ArrayList;
  *
  * @author Chris
  */
-class Automata {
+public class Automata {
 
     /**
      * ArrayList of Cells is used to hold all the cells of the automaton. Number
@@ -14,16 +14,7 @@ class Automata {
      * lookup rules of the automaton.
      */
     ArrayList<Cell> container;
-    int neighbours,
-
-    /**
-     *
-     */
-    a_size;
-
-    /**
-     *
-     */
+    int neighbours, a_size;
     RuleTable rules;
 
     /**
