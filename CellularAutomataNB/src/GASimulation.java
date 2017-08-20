@@ -1,12 +1,12 @@
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The Genetic Algorithm simulation runs a custom number of genotypes, trials
@@ -23,20 +23,28 @@ public final class GASimulation {
      * genotypes, and generations is stored. Class also contains a Random
      * generator used to create random genotypes and initial automata.
      */
-    public Map<RuleTable, Double> genotypes;
+    public static Map<RuleTable, Double> genotypes;
     int trials,
             num_genotypes,
             generations;
     Random rangen;
 
     /**
-     * Constructor for the GASimulation class. Fields are initialised, and user
-     * inputs set for the number of genotypes, the number of trials and the
-     * number of generations.
+     * Constructor for the GASimulation class.
      */
     public GASimulation() {
+
+    }
+
+    /**
+     * Sets up the pool of RuleTables (genotypes) and adds them to the genotypes
+     * HashMap with an initial value (error) of 0.0. Fields are initialised, and
+     * user inputs set for the number of genotypes, the number of trials and the
+     * number of generations.
+     */
+    public void set_up() {
         rangen = new Random();
-        genotypes = new HashMap<>();
+        genotypes = new ConcurrentHashMap<>();
 
         Scanner read_in = new Scanner(System.in);
         System.out.println("Welcome to the Genetic Algorithm Simulation...");
@@ -61,20 +69,12 @@ public final class GASimulation {
             choice = read_in.next();
         }
         generations = Integer.valueOf(choice);
-
-        set_up();
-    }
-
-    /**
-     * Sets up the pool of RuleTables (genotypes) and adds them to the genotypes
-     * HashMap with an initial value (error) of 0.0.
-     */
-    public void set_up() {
-
         for (int i = 0; i < num_genotypes; i++) {
             String genotype = random_bin_string(8);
             genotypes.put(new RuleTable(1, genotype), 0.0);
         }
+        
+        evolution();
     }
 
     /**
@@ -105,6 +105,33 @@ public final class GASimulation {
         print_genotypes(ranked_genotypes);
         replace_weakest(ranked_genotypes);
         reset();
+    }
+
+    /**
+     * Method to randomly initialise and run cellular automata for each
+     * genotype, counting the errors of the output of the automata and the
+     * expected values.
+     */
+    public void run_sim() {
+
+        for (RuleTable genotype : genotypes.keySet()) {
+            String initial = random_bin_string(10);
+            Automata automaton = new Automata(initial, 1, genotype);
+
+            String expected_final = get_expected_final(automaton);
+            Automata target_automaton = new Automata(expected_final, 1, genotype);
+
+            for (int j = 0;
+                    j < 100; j++) {
+                automaton.do_update();
+            }
+            Double error = get_error_rate(automaton.to_string(), target_automaton.to_string());
+
+            Double old_error = genotypes.get(genotype);
+
+            genotypes.replace(genotype, old_error
+                    + error);
+        }
     }
 
     /**
@@ -141,31 +168,6 @@ public final class GASimulation {
 
         System.out.println("-----\nWORST GENOTYPE: " + ranked_genotypes.get(num_genotypes - 1).getKey().get_outcomes());
         System.out.println("MEAN ERRORS: " + ranked_genotypes.get(num_genotypes - 1).getValue());
-
-    }
-
-    /**
-     * Method to randomly initialise and run cellular automata for each
-     * genotype, counting the errors of the output of the automata and the
-     * expected values.
-     */
-    public void run_sim() {
-
-        for (RuleTable genotype : genotypes.keySet()) {
-
-            String initial = random_bin_string(10);
-            Automata automaton = new Automata(initial, 1, genotype);
-
-            String expected_final = get_expected_final(automaton);
-            Automata target_automaton = new Automata(expected_final, 1, genotype);
-
-            for (int j = 0; j < 100; j++) {
-                automaton.do_update();
-            }
-
-            Double error = get_error_rate(automaton.to_string(), target_automaton.to_string());
-            genotypes.put(genotype, genotypes.get(genotype) + error);
-        }
 
     }
 
@@ -230,24 +232,6 @@ public final class GASimulation {
     }
 
     /**
-     * Method to pick the best, second best and worst genotypes, ranked by mean
-     * error, and replace the worst with the offspring of the two best.
-     *
-     * @param sorted_genotypes The list of sorted genotypes based on mean error.
-     */
-    private void replace_weakest(List<Entry<RuleTable, Double>> sorted_genotypes) {
-        Entry<RuleTable, Double> first = sorted_genotypes.get(0);
-        Entry<RuleTable, Double> second = sorted_genotypes.get(1);
-        Entry<RuleTable, Double> worst = sorted_genotypes.get(num_genotypes - 1);
-
-        genotypes.remove(worst.getKey());
-        String child_genotype = get_offspring(first, second);
-        System.out.println("-----\nNEW GENOTYPE: " + child_genotype + " REPLACED: " + worst.getKey().get_outcomes());
-        genotypes.put(new RuleTable(1, child_genotype), 0.0);
-
-    }
-
-    /**
      * Creates a list with the genotypes sorted by their values.
      *
      * @return a List of Entries sorted by the value (mean error).
@@ -259,6 +243,35 @@ public final class GASimulation {
     }
 
     /**
+     * Method to pick the best, second best and worst genotypes, ranked by mean
+     * error, and replace the worst with the offspring of the two best.
+     *
+     * @param sorted_genotypes The list of sorted genotypes based on mean error.
+     */
+    private void replace_weakest(List<Entry<RuleTable, Double>> sorted_genotypes) {
+        Entry<RuleTable, Double> first = sorted_genotypes.get(0);
+        Entry<RuleTable, Double> second = sorted_genotypes.get(1);
+        int min_index = (int) 0.5 * num_genotypes;
+        int max_index = num_genotypes - 1;
+
+        int worst_index = rangen.nextInt(min_index + 1 - min_index) + min_index;
+        Entry<RuleTable, Double> worst = sorted_genotypes.get(worst_index);
+
+        genotypes.remove(worst.getKey());
+        String child_genotype = get_offspring(first, second);
+        System.out.println("-----\nNEW GENOTYPE: " + child_genotype + " REPLACED: " + worst.getKey().get_outcomes());
+        genotypes.put(new RuleTable(1, child_genotype), 0.0);
+
+    }
+
+    /**
+     * This method generates an offspring genotype based on the two passed
+     * parents. Each gene will be randomly taken from one or the other parent.
+     * The ratio of errors made by each parent is used to give the probability
+     * of a gene coming from either parent. e.g. if both parents had 2 errors,
+     * there would be a 50:50 chance of getting the gene from one parent or the
+     * other.
+     *
      *
      * @param father One of two best genotypes
      * @param mother One of two best genotypes

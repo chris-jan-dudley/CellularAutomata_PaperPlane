@@ -16,28 +16,19 @@ public final class CASimulation {
      * recorded.
      */
     private RuleTable rule_table;
-
-    /**
-     *
-     */
     private Automata automata;
-    private int num_ticks,
+    private int num_ticks, current_tick;
 
     /**
-     *
-     */
-    current_tick;
-
-    /**
-     * Main method contains the user input prompts and assignments, and calls
-     * the methods to set up the simulation, and run_sim it.
+     * Constructor for CASimulation. Class fields are initialized using user input in the run_sim method.
      *
      */
     public CASimulation() {
     }
 
     /**
-     *
+     * Method contains the user input prompts and assignments, and calls the
+     * methods to set up the simulation and run it.
      */
     public void run_sim() {
 
@@ -173,7 +164,7 @@ public final class CASimulation {
             }
         }
         System.out.println("\nYour Cellular Automaton has terminated. Thank you for using this simulation!");
-        
+
     }
 
     /**
