@@ -1,5 +1,7 @@
-# Cellular Automata
+# Cellular Automata & Genetic Algorithms
 *Chris Dudley*
+
+## Cellular Automata
 
 A Cellular Automata are systems which use a set of rules to simulate the behaviour of a set of cells. In this implementation, a 1 dimensional Automaton is set up and run.
 
@@ -34,7 +36,7 @@ Where *i* is the central cell, and L1 and R1 are the left and right neighbours r
 Let us consider the following rules table, with the relevant rule in bold:
 
 | L1 | i | R1 || rule |
-|:-: |:-:|:-:||:-:|
+|:---: |:---:|:---:||:---:|
 | 0 | 0 | 0 || 1 |
 | 0 | 0 | 1 || 0 |
 | **0** | **1** | **0** || **0** |
@@ -47,6 +49,13 @@ Let us consider the following rules table, with the relevant rule in bold:
 This means that when the automaton is updated, the cell will take a value of 0; it is "turned off". This is done for each cell in the automaton.
 
 In this application, the number of neighbours (neighbours wrap around the automaton if necessary), the initial state, number of ticks, and rule table can all be customised.
+
+## Genetic Algorithms
+
+A genetic algorithm is a program that will try to reproduce an evolutionary system to obtain the "best" set of variables for the system.
+
+In the context of a cellular automaton, the set of variables, known as the genotype, would be represented by the rule table of the automaton. In this implementation, the goal is to develop an automaton that can categorise the density of cells in the initial condition. For example:
+
 
 ## How to use
 

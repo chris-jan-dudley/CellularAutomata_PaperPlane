@@ -42,7 +42,7 @@ public final class GASimulation {
      * user inputs set for the number of genotypes, the number of trials and the
      * number of generations.
      */
-    public void set_up() {
+    public void set_up_simulation() {
         rangen = new Random();
         genotypes = new ConcurrentHashMap<>();
 
@@ -83,7 +83,7 @@ public final class GASimulation {
         }
         generations = Integer.valueOf(choice);
         for (int i = 0; i < num_genotypes; i++) {
-            String genotype = random_bin_string(8);
+            String genotype = gen_binary_string(8);
             genotypes.put(new RuleTable(1, genotype), 0.0);
         }
 
@@ -100,7 +100,7 @@ public final class GASimulation {
         }
         if (chosen.equals("y")) {
             System.out.println("\nStarting Genetic Algorithm...\n");
-            evolution();
+            run_simulation();
         }
         System.out.println("\nYour Genetic Algorithm has terminated. Thank you for using this simulation!");
 
@@ -110,7 +110,7 @@ public final class GASimulation {
      * This method handles the running of each of the simulation's generations,
      * and is the class called by the MainSimulation class.
      */
-    public void evolution() {
+    public void run_simulation() {
         for (int i = 0; i < generations; i++) {
             System.out.println("\n+++++ GENERATION " + (i + 1) + " +++++");
             run_generation();
@@ -118,22 +118,22 @@ public final class GASimulation {
     }
 
     /**
-     * Method to run generations of the simulation. It calls the run_sim()
-     * method to run each cellular automata a number of times equal to the
-     * number of trials set. After this, the mean number of errors is
-     * calculated, and placed as the values of the genotypes HashMap by calling
-     * the set_mean_error() method. The genotypes are then ranked, and the
-     * weakest is replaced using the best two.
+     * Method to run generations of the simulation. It calls the run_trial()
+ method to run each cellular automata a number of times equal to the
+ number of trials set. After this, the mean number of errors is
+ calculated, and placed as the values of the genotypes HashMap by calling
+ the set_mean_error() method. The genotypes are then ranked, and the
+ weakest is replaced using the best two.
      */
     public void run_generation() {
         for (int i = 0; i < trials; i++) {
-            run_sim();
+            run_trial();
         }
         set_mean_error();
         List<Entry<RuleTable, Double>> ranked_genotypes = rank_genotypes();
-        print_genotypes(ranked_genotypes);
+        print_best_worst(ranked_genotypes);
         replace_weakest(ranked_genotypes);
-        reset();
+        reset_values();
     }
 
     /**
@@ -141,10 +141,10 @@ public final class GASimulation {
      * genotype, counting the errors of the output of the automata and the
      * expected values.
      */
-    public void run_sim() {
+    public void run_trial() {
 
         for (RuleTable genotype : genotypes.keySet()) {
-            String initial = random_bin_string(10);
+            String initial = gen_binary_string(10);
             Automata automaton = new Automata(initial, 1, genotype);
 
             String expected_final = get_expected_final(automaton);
@@ -154,7 +154,7 @@ public final class GASimulation {
                     j < 100; j++) {
                 automaton.do_update();
             }
-            Double error = get_error_rate(automaton.to_string(), target_automaton.to_string());
+            Double error = count_errors(automaton.to_string(), target_automaton.to_string());
 
             Double old_error = genotypes.get(genotype);
 
@@ -164,9 +164,9 @@ public final class GASimulation {
     }
 
     /**
-     * Method to reset the values of the genotypes to 0 for the next generation.
+     * Method to reset_values the values of the genotypes to 0 for the next generation.
      */
-    public void reset() {
+    public void reset_values() {
 
         for (RuleTable genotype : genotypes.keySet()) {
             genotypes.put(genotype, 0.0);
@@ -190,7 +190,7 @@ public final class GASimulation {
      * @param ranked_genotypes List of the ranked genotypes from which to access
      * the best and worst.
      */
-    public void print_genotypes(List<Entry<RuleTable, Double>> ranked_genotypes) {
+    public void print_best_worst(List<Entry<RuleTable, Double>> ranked_genotypes) {
 
         System.out.println("-----\nBEST GENOTYPE: " + ranked_genotypes.get(0).getKey().get_outcomes());
         System.out.println("MEAN ERRORS: " + ranked_genotypes.get(0).getValue());
@@ -207,7 +207,7 @@ public final class GASimulation {
      * @param len The length of the random string to be generated.
      * @return A string of length len containing 1's and 0's.
      */
-    public String random_bin_string(int len) {
+    public String gen_binary_string(int len) {
         String genotype = "";
         rangen = new Random();
         for (int i = 0; i < len; i++) {
@@ -250,7 +250,7 @@ public final class GASimulation {
      * output.
      * @return errors the number of discrepancies between the two Strings.
      */
-    public double get_error_rate(String actual, String wanted) {
+    public double count_errors(String actual, String wanted) {
         double errors = 0.0;
         for (int i = 0; i < actual.length(); i++) {
             if (actual.charAt(i) != wanted.charAt(i)) {

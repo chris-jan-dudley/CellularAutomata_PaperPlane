@@ -33,7 +33,7 @@ public class MasterSimulation {
             sim_ca.run_sim();
         } else {
             GASimulation sim_ga = new GASimulation();
-            sim_ga.set_up();
+            sim_ga.set_up_simulation();
         }
 
     }

@@ -116,7 +116,7 @@ public class CellularAutomataTesting {
     public void test_gasimulation() {
 
         for (int i = 0; i < 10; i++) {
-            Assert.assertTrue(test_gasimulation.random_bin_string(8).matches("[0,1]+"));
+            Assert.assertTrue(test_gasimulation.gen_binary_string(8).matches("[0,1]+"));
         }
 
         Automata ta = new Automata("0000011111", 1, test_rules_1);
@@ -125,7 +125,7 @@ public class CellularAutomataTesting {
         Assert.assertEquals("0000000000", test_gasimulation.get_expected_final(ta));
         String string_a = "1000";
         String string_b = "1111";
-        Assert.assertTrue(3.0 == test_gasimulation.get_error_rate(string_a, string_b));
+        Assert.assertTrue(3.0 == test_gasimulation.count_errors(string_a, string_b));
 
     }
 
